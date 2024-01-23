@@ -42,7 +42,7 @@ const Card = (props) => {
            course.description.length > 100 ? (course.description.substr(0,100)) + "..." : (course.description)
          }</p>
       </div>
-      <p>Hii My Name is md </p>
+     
     </div>
     );
 };
