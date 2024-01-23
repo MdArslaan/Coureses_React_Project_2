@@ -42,8 +42,9 @@ const Card = (props) => {
            course.description.length > 100 ? (course.description.substr(0,100)) + "..." : (course.description)
          }</p>
       </div>
+      <p>HII THis </p>
     </div>
-  );
+    );
 };
 
 export default Card;
