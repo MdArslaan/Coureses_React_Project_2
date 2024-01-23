@@ -3,9 +3,12 @@ import Card from './Card';
 
 const Cards = (props) => {
   let courses = props.courses;
+  let category=props.category;
   const [LikedCourses, SetLikesCourse] = useState([]);
 
   const getCourses = () => {
+    if (category==="All")
+    {
     let allCourses = [];
 
     Object.values(courses).forEach((array) => {
@@ -15,6 +18,11 @@ const Cards = (props) => {
     });
 
     return allCourses;
+  }
+  else
+   {
+     return courses[category] 
+   }
   };
 
   return (

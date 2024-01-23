@@ -9,6 +9,7 @@ import Spiner from './components/Spiner.js';
 const App = () => {
   const [courses, setCourses] = useState(null);
   const [loading, setloading] = useState(true);
+  const [category,setCategory]=useState[filterData[0].title]
   const fetchData = async () => {
     setloading(true);
     try {
@@ -26,16 +27,19 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-gray-500 flex-col">
+    <div className="bg-gray-500 flex-col min-h-screen">
       <div>
         <Navbar />
       </div>
 
       <div>
-        <Filter filterData={filterData} />
+        <Filter 
+        category ={category}
+        setCategory={setCategory}
+        filterData={filterData} />
       </div>
       <div className="w-11/12 max-w-[1200px] flex-wrap mx-auto flex justify-center items-center min-h-[50vh] m-3">
-        {loading ? <Spiner /> : <Cards courses={courses} />}
+        {loading ? <Spiner /> : <Cards courses={courses} category={category} />}
       </div>
     </div>
   );
