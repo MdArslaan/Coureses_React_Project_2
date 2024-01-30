@@ -1,46 +1,66 @@
-import React, { useState,useEffect }  from 'react';
-import {apiUrl, filterData } from './Data.js';
-import Cards from './components/Cards.js';
-import Filter from './components/Filter.js';
-import Navbar from './components/Navbar.js';
-import { toast } from 'react-toastify';
-import Spiner from './components/Spiner.js';
+import React from "react";
+import Navbar from  "./components/Navbar";
+import Cards from "./components/Cards"
+import Filter from "./components/Filter"
+import { apiUrl, filterData  } from "./data";
+import { useState,useEffect } from "react";
+import Spinner from "./components/Spinner";
+import {toast} from "react-toastify";
 
-const App = () => {
-  const [courses, setCourses] = useState(null);
-  const [loading, setloading] = useState(true);
-  const [category,setCategory]=useState[filterData[0].title]
-  const fetchData = async () => {
-    setloading(true);
-    try {
-      const res = await fetch(apiUrl);
-      const output = await res.json();
+
+const App = () => { 
+  const [courses, setCourses] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState(filterData[0].title);
+
+  async function fetchData() {
+    setLoading(true);
+    try{
+      let response = await fetch(apiUrl);
+      let output = await response.json();
+      ///output -> 
       setCourses(output.data);
-    } catch (error) {
-      toast.error('Something went wrong:', error);
     }
-    setloading(false);
-  };
+    catch(error) {
+        toast.error("Unable to fetch data form API");
+    }
+    setLoading(false);
+  }
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [])
+  
 
   return (
-    <div className="bg-gray-500 flex-col min-h-screen">
+    <div className="min-h-screen flex flex-col bg-black">
       <div>
-        <Navbar />
+        <Navbar/>
+      </div>
+      <div className="bg-bgDark2">
+        <div>
+          <Filter 
+          filterData={filterData}
+            category={category}
+            setCategory={setCategory}
+          />
+        </div>
+        <div className="w-11/12 max-w-[1200px] 
+        mx-auto flex flex-wrap justify-center items-center min-h-[50vh]">
+
+        {
+        (courses.length === 0 || Object.keys(courses).length === 0) ? 
+        (<div>No Courses Found</div>) : 
+        (loading ? (<Spinner/>) : (<Cards courses={courses} category={category}/>))
+        }
+
+          {/* {
+            loading ? (<Spinner/>) : (<Cards courses={courses} category={category}/>)
+          } */}
+        </div>
       </div>
 
-      <div>
-        <Filter 
-        category ={category}
-        setCategory={setCategory}
-        filterData={filterData} />
-      </div>
-      <div className="w-11/12 max-w-[1200px] flex-wrap mx-auto flex justify-center items-center min-h-[50vh] m-3">
-        {loading ? <Spiner /> : <Cards courses={courses} category={category} />}
-      </div>
+
     </div>
   );
 };
